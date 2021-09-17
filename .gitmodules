@@ -1,3 +1,6 @@
 [submodule "Mokka/Natives/External/Clones/glfw"]
 	path = Mokka/Natives/External/Modules/glfw
 	url = https://github.com/glfw/glfw
+[submodule "Mokka/Natives/External/Modules/glew"]
+	path = Mokka/Natives/External/Modules/glew
+	url = https://github.com/nigels-com/glew

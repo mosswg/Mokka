@@ -37,10 +37,24 @@ else()
     message(FATAL_ERROR "Required submodule glfw was not found")
 endif()
 
+# Check if glfw submodules exists
+if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew")
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/lib")
+        message(STATUS "Generating glew files")
+        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/auto)
+        message(STATUS "Building glfw")
+        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/ glew.lib.shared)
+    endif()
+else()
+    message(FATAL_ERROR "Required submodule glfw was not found")
+endif()
+
+
 
 
 include_directories(Mokka/Natives/src)
 include_directories(Mokka/Natives/External/Modules/glfw/include)
+include_directories(Mokka/Natives/External/Modules/glew/include)
 include_directories(Mokka/Natives/External/includes/)
 
 if (WIN32)
@@ -51,6 +65,7 @@ endif()
 
 
 link_directories(Mokka/Natives/External/Modules/glfw/build/src)
+link_directories(Mokka/Natives/External/Modules/glew/lib)
 
 
 link_libraries(glfw)
