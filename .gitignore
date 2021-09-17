@@ -1,0 +1,12 @@
+# Build Files
+Mokka/out
+Mokka/jni/linux
+Mokka/jni/win
+
+# Old files and files that are not mine
+Mokka/jni/src/Archive
+Mokka/jni/src/vendor
+
+# Project files
+.idea
+Mokka.iml
