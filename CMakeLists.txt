@@ -28,7 +28,7 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw")
     if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build")
         message(STATUS "Building glfw")
         execute_process(COMMAND cmake -S ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw -B ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
-        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
+        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build OUTPUT_QUIET)
     endif()
 else()
     message(FATAL_ERROR "Required submodule glfw was not found")
@@ -40,6 +40,12 @@ link_directories(Mokka/Natives/External/Modules/glfw/build/src)
 include_directories(Mokka/Natives/src)
 include_directories(Mokka/Natives/External/Modules/glfw/include)
 include_directories(Mokka/Natives/External/includes/)
+
+if (WIN32)
+    include_directories(Mokka/Natives/External/includes/Java/include/linux)
+else()
+    include_directories(Mokka/Natives/External/includes/Java/include/win32)
+endif()
 
 add_library(Mokka
         Mokka/Natives/src/mka_IndexBuffer.cpp
