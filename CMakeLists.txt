@@ -26,8 +26,9 @@ endif()
 # Check if glfw submodules exists
 if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw")
     if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build")
-        message(STATUS "Building glfw")
+        message(STATUS "Generating glfw files")
         execute_process(COMMAND cmake -S ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw -B ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
+        message(STATUS "Building glfw")
         execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build OUTPUT_QUIET)
     endif()
 else()
@@ -42,9 +43,9 @@ include_directories(Mokka/Natives/External/Modules/glfw/include)
 include_directories(Mokka/Natives/External/includes/)
 
 if (WIN32)
-    include_directories(Mokka/Natives/External/includes/Java/include/linux)
-else()
     include_directories(Mokka/Natives/External/includes/Java/include/win32)
+else()
+    include_directories(Mokka/Natives/External/includes/Java/include/linux)
 endif()
 
 add_library(Mokka
