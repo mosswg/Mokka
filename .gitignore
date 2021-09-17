@@ -1,11 +1,12 @@
 # Build Files
 Mokka/out
-Mokka/jni/External
-Mokka/jni/build
+Mokka/Natives/build
+Mokka/Natives/cmake-build-debug
+Mokka/Natives/External/linux
+Mokka/Natives/External/win
 
 # Old files and files that are not mine
-Mokka/jni/src/Archive
-Mokka/jni/src/vendor
+Mokka/Natives/src/Archive
 
 # Project files
 .idea

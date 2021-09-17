@@ -7,10 +7,11 @@ set(CMAKE_CXX_STANDARD 14)
 IF (WIN32)
     link_directories(External/win)
 ELSE()
-    link_directories(External/linux)
+    link_directories(External/)
 ENDIF()
 
 include_directories(src)
+include_directories(External/includes)
 
 add_library(Mokka
         src/mka_IndexBuffer.cpp
