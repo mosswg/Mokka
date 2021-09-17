@@ -1,0 +1,3 @@
+[submodule "Mokka/Natives/External/Clones/glfw"]
+	path = Mokka/Natives/External/Modules/glfw
+	url = https://github.com/glfw/glfw

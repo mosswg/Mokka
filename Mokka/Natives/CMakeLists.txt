@@ -4,10 +4,31 @@ project(Mokka)
 set(CMAKE_CXX_STANDARD 14)
 
 
+
+# Get Submodules
+find_package(Git QUIET)
+# If the user is using git fetch the submodules
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/../../.git")
+    # Option to disable fetching submodules on build
+    option(GIT_SUBMODULE "Check submodules during build" ON)
+    if(GIT_SUBMODULE)
+        message(STATUS "Getting submodules")
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule init
+                RESULT_VARIABLE GIT_SUBMOD_RESULT OUTPUT_QUIET)
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update
+                RESULT_VARIABLE GIT_SUBMOD_RESULT OUTPUT_QUIET)
+        if (NOT GIT_SUBMOD_RESULT EQUAL "0")
+            message(FATAL_ERROR "git submodule update failed with ${GIT_SUBMOD_RESULT}")
+        endif()
+    endif()
+endif()
+
+
+
 IF (WIN32)
     link_directories(External/win)
 ELSE()
-    link_directories(External/)
+    link_directories(External/linux)
 ENDIF()
 
 include_directories(src)
