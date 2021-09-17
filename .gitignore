@@ -1,7 +1,7 @@
 # Build Files
 Mokka/out
-Mokka/jni/linux
-Mokka/jni/win
+Mokka/jni/External
+Mokka/jni/build
 
 # Old files and files that are not mine
 Mokka/jni/src/Archive
