@@ -2,7 +2,7 @@
 // #include "Mokka.h"
 #include "mka_Renderer.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "vendor/stb_image/stb_image.h"
+#include <stb_image/stb_image.h>
 
 
 /*

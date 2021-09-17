@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 14)
 
 
 
+message(STATUS "Starting CMake")
+
 # Get Submodules
 find_package(Git QUIET)
 # If the user is using git fetch the submodules
@@ -27,7 +29,7 @@ endif()
 if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw")
     if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build")
         message(STATUS "Generating glfw files")
-        execute_process(COMMAND cmake -S ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw -B ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
+        execute_process(COMMAND cmake -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_EXAMPLES=OFF -S ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw -B ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
         message(STATUS "Building glfw")
         execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build OUTPUT_QUIET)
     endif()
@@ -36,7 +38,6 @@ else()
 endif()
 
 
-link_directories(Mokka/Natives/External/Modules/glfw/build/src)
 
 include_directories(Mokka/Natives/src)
 include_directories(Mokka/Natives/External/Modules/glfw/include)
@@ -48,7 +49,19 @@ else()
     include_directories(Mokka/Natives/External/includes/Java/include/linux)
 endif()
 
-add_library(Mokka
+
+link_directories(Mokka/Natives/External/Modules/glfw/build/src)
+
+
+link_libraries(glfw)
+link_libraries(GLEW)
+link_libraries(GLU)
+link_libraries(GL)
+link_libraries(m)
+link_libraries(X11)
+
+
+add_library(Mokka SHARED
         Mokka/Natives/src/mka_IndexBuffer.cpp
         Mokka/Natives/src/mka_IndexBuffer.h
         Mokka/Natives/src/mka_Maths.cpp
