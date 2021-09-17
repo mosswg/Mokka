@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.10)
 project(Mokka)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -39,6 +39,7 @@ link_directories(Mokka/Natives/External/Modules/glfw/build/src)
 
 include_directories(Mokka/Natives/src)
 include_directories(Mokka/Natives/External/Modules/glfw/include)
+include_directories(Mokka/Natives/External/includes/)
 
 add_library(Mokka
         Mokka/Natives/src/mka_IndexBuffer.cpp
