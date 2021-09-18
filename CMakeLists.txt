@@ -12,7 +12,7 @@ option(GIT_SUBMODULE "Check submodules during build" ON)
 option(MOKKA_BUILD_JAR "Create A Jar File" OFF)
 
 
-set(FIND_JAVA_FILES "$$(find ${PROJECT_SOURCE_DIR}/Mokka -name \"*.java\")")
+set(FIND_JAVA_FILES "$$(find" "${PROJECT_SOURCE_DIR}/Mokka" "-name" "\"*.java\")")
 
 
 
