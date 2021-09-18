@@ -112,7 +112,7 @@ find_package(Java QUIET)
 if (MOKKA_BUILD_JAR AND JAVA_FOUND)
 
 
-    add_custom_target( jar ALL mkdir java/Mokka
+    add_custom_target( jar ALL mkdir -p java/Mokka
             COMMAND javac -d java/Mokka $(find ${PROJECT_SOURCE_DIR}/Mokka -name "*.java")
             COMMAND jar cf libmokka.jar java/
             DEPENDS mokka
