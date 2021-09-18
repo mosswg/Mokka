@@ -116,7 +116,7 @@ if (MOKKA_BUILD_JAR AND JAVA_FOUND)
 
 
     add_custom_target( jar ALL mkdir -p Mokka
-            COMMAND javac -d Mokka FIND_JAVA_FILES
+            COMMAND javac -d Mokka ${FIND_JAVA_FILES}
             COMMAND jar cf libmokka.jar Mokka
             DEPENDS mokka
             COMMENT Creates A Jar)
