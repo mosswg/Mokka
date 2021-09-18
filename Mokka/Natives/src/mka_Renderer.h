@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 #include <iostream>
-#include "../External/includes/GLEW/include/GL/glew.h"
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <Java/include/jni.h>
 #include "mka_IndexBuffer.h"
