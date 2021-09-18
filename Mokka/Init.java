@@ -26,8 +26,8 @@ public class Init {
                 System.load(new File("Mokka/Natives/build/" + mLib.getFileName("Mokka")).getAbsolutePath());
             } catch (UnsatisfiedLinkError | mLib.OSNotIdentifiedException e) {
                 try {
-                    mLib.loadLibraryFromJar("/Mokka/Natives/External/Modules/glfw/build/src/" + mLib.getFileName("glfw")); // during runtime. .DLL/.so/.dylib within .JAR
-                    mLib.loadLibraryFromJar("/Mokka/Natives/External/Modules/glew/lib/" + mLib.getFileName("GLEW")); // during runtime. .DLL/.so/.dylib within .JAR
+                    mLib.loadLibraryFromJar("/Mokka/lib/" + mLib.getFileName("glfw")); // during runtime. .DLL/.so/.dylib within .JAR
+                    mLib.loadLibraryFromJar("/Mokka/lib/" + mLib.getFileName("GLEW")); // during runtime. .DLL/.so/.dylib within .JAR
                     mLib.loadLibraryFromJar("/Mokka/lib/" + mLib.getFileName("mokka")); // during runtime. .DLL/.so/.dylib within .JAR
                 } catch (IOException | mLib.OSNotIdentifiedException e1) {
                     e1.printStackTrace();
