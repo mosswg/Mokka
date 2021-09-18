@@ -10,9 +10,10 @@ message(STATUS "Starting CMake")
 # Options
 option(GIT_SUBMODULE "Check submodules during build" ON)
 option(MOKKA_BUILD_JAR "Create A Jar File" OFF)
+set(MOKKA_LIB_LOCATION ${PROJECT_SOURCE_DIR}/build CACHE STRING "The Location of libmokka.so")
 
 
-set(FIND_JAVA_FILES "$$(find" "${PROJECT_SOURCE_DIR}/Mokka" "-name" "\"*.java\")")
+set(FIND_JAVA_FILES  "$$(find" "${PROJECT_SOURCE_DIR}/Mokka" "-name" "\"*.java\")")
 
 
 
@@ -115,10 +116,15 @@ find_package(Java QUIET)
 if (MOKKA_BUILD_JAR AND JAVA_FOUND)
 
 
-    add_custom_target( jar ALL mkdir -p Mokka
-            COMMAND javac -d Mokka ${FIND_JAVA_FILES}
-            COMMAND jar cf libmokka.jar Mokka
+    add_custom_target( jar ALL javac -d . ${FIND_JAVA_FILES}
+            COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/Natives Mokka/Natives
+            COMMAND mkdir Mokka/lib
+            COMMAND cp -r ${MOKKA_LIB_LOCATION}/libmokka.so Mokka/build/libmokka.so
+            COMMAND jar cf libmokka.jar Mokka/
+            COMMAND rm -r Mokka
             DEPENDS mokka
             COMMENT Creates A Jar)
+
+    set(ADDITIONAL_CLEAN_FILES Mokka)
 
 endif()

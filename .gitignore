@@ -1,4 +1,6 @@
 # Build Files
+*.class
+build
 out
 Mokka/out
 Mokka/Natives/build
