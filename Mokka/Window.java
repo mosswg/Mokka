@@ -33,16 +33,13 @@ public class Window {
 
     public static native float getCameraY();
 
-    public static class TwoD {
-        /**
-         * Sets the Projection Matrix to an Orthographic Value With the Coordinates Given
-         *
-         * @param xMin - Left-most Edge X Coordinate
-         * @param xMax - Right-most Edge X Coordinate
-         * @param yMin - Bottom Edge Y Coordinate
-         * @param yMax - Top Edge Y Coordinate
-         */
-        public static native void setOrthoCoords(float xMin, float xMax, float yMin, float yMax);
-
-    }
+    /**
+     * Sets the Projection Matrix to an Orthographic Value With the Coordinates Given
+     *
+     * @param xMin - Left-most Edge X Coordinate
+     * @param xMax - Right-most Edge X Coordinate
+     * @param yMin - Bottom Edge Y Coordinate
+     * @param yMax - Top Edge Y Coordinate
+     */
+    public static native void setOrthoCoords(float xMin, float xMax, float yMin, float yMax);
 }
