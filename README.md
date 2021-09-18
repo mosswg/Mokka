@@ -46,7 +46,7 @@ shape.draw();
 # Examples
 
 ## Basic Red Square
-### Code:
+### Code
 ```Java
 package Examples;
 
@@ -75,7 +75,7 @@ public class Basic {
     }
 }
 ```
-### Output: <br>
+### Output <br>
 ![](Examples/Images/BasicRedSquare.png)
 <br>
 <br>
