@@ -1,9 +1,10 @@
+package Examples;
 
 import Mokka.*;
 import Mokka.Shape.*;
 import java.io.File;
 
-public class NativesTester {
+public class BasicExample {
     static Rect sq;
     static Rect sq2;
     static float[] c = {0.3f, 0.8f, 1f, 1};
@@ -18,7 +19,7 @@ public class NativesTester {
 
         Mokka.Window.TwoD.setOrthoCoords(0f, 800f, 0, 800f);
 
-        Texture t = new Texture(new File("Mokka/res/Textures/java.jpeg"));
+        Texture t = new Texture("Mokka/res/Textures/java.jpeg");
 
         Material java = new Material.BasicTexture(t);
 

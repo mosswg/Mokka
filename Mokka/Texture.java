@@ -1,7 +1,7 @@
 package Mokka;
 
-import java.io.File;
-import Mokka.Init.MokkaException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Texture {
     String filepath;
@@ -10,12 +10,15 @@ public class Texture {
     int height;
     int BPP;
 
-    public Texture(File filePath) {
-        if (!filePath.isFile()) {
-            throw MokkaException.ObjectCreation.NonexistentFile;
+    public Texture(String textureFile) {
+        if (!Files.exists(Path.of(textureFile))) {
+            textureFile = Internal.getFileFromJar(textureFile).getAbsolutePath();
+            if (!Files.exists(Path.of(textureFile))) {
+                throw Init.MokkaException.ObjectCreation.NonexistentFile;
+            }
         }
 
-        Texture t = createTexture(filePath.getPath());
+        Texture t = createTexture(textureFile);
         this.filepath = t.filepath;
         this.RendererID = t.RendererID;
         this.width = t.width;

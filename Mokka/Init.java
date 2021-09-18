@@ -18,20 +18,21 @@ public class Init {
 
     static {
         try {
-            System.load(new File("Mokka/Natives/External/Modules/glfw/build/src" + mLib.getFileName("glfw")).getAbsolutePath());
-            System.load(new File("Mokka/Natives/" + mLib.getFileName("GLEW")).getAbsolutePath());
-            System.load(new File("build" + mLib.getFileName("Mokka")).getAbsolutePath());
-        } catch (UnsatisfiedLinkError) {
+            System.load(new File("Mokka/Natives/External/Modules/glfw/build/src/" + mLib.getFileName("glfw")).getAbsolutePath());
+            System.load(new File("Mokka/Natives/External/Modules/glew/lib/" + mLib.getFileName("GLEW")).getAbsolutePath());
+            System.load(new File("build/" + mLib.getFileName("mokka")).getAbsolutePath());
+        } catch (UnsatisfiedLinkError | mLib.OSNotIdentifiedException s) {
             try {
-                System.load(new File("Mokka/Natives/build" + mLib.getFileName("Mokka")).getAbsolutePath());
+                System.load(new File("Mokka/Natives/build/" + mLib.getFileName("Mokka")).getAbsolutePath());
             } catch (UnsatisfiedLinkError | mLib.OSNotIdentifiedException e) {
-            try {
-                mLib.loadLibraryFromJar("/Mokka/Natives/" + mLib.getFileName("GLEW")); // during runtime. .DLL/.so/.dylib within .JAR
-                mLib.loadLibraryFromJar("/Mokka/Natives/" + mLib.getFileName("glfw")); // during runtime. .DLL/.so/.dylib within .JAR
-                mLib.loadLibraryFromJar("/Mokka/Natives/" + mLib.getFileName("Mokka")); // during runtime. .DLL/.so/.dylib within .JAR
-            } catch (IOException | mLib.OSNotIdentifiedException e1) {
-                e1.printStackTrace();
-                throw new RuntimeException(e1);
+                try {
+                    mLib.loadLibraryFromJar("/Mokka/Natives/External/Modules/glfw/build/src/" + mLib.getFileName("glfw")); // during runtime. .DLL/.so/.dylib within .JAR
+                    mLib.loadLibraryFromJar("/Mokka/Natives/External/Modules/glew/lib/" + mLib.getFileName("GLEW")); // during runtime. .DLL/.so/.dylib within .JAR
+                    mLib.loadLibraryFromJar("/Mokka/Natives/build/" + mLib.getFileName("mokka")); // during runtime. .DLL/.so/.dylib within .JAR
+                } catch (IOException | mLib.OSNotIdentifiedException e1) {
+                    e1.printStackTrace();
+                    throw new RuntimeException(e1);
+                }
             }
         }
     }
@@ -269,25 +270,12 @@ public class Init {
 
     public static String getFileName(String libname) throws OSNotIdentifiedException {
         String osName = System.getProperty("os.name").toLowerCase();
-        String filePrefix = getLibPath();
         if (osName.contains("win"))
-            return filePrefix + libname + ".dll";
+            return libname + ".dll";
         else if (osName.contains("mac"))
-            return filePrefix + libname + ".dylib";
+            return libname + ".dylib";
         else if (osName.contains("nux"))
-            return filePrefix + "lib" + libname + ".so";
-
-        throw new OSNotIdentifiedException(osName);
-    }
-
-    public static String getLibPath() throws OSNotIdentifiedException {
-        String osName = System.getProperty("os.name").toLowerCase();
-        if (osName.contains("win"))
-            return "win/";
-        else if (osName.contains("mac"))
-            return "macOS/";
-        else if (osName.contains("nux"))
-            return "linux/";
+            return "lib" + libname + ".so";
 
         throw new OSNotIdentifiedException(osName);
     }

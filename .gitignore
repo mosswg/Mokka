@@ -1,4 +1,5 @@
 # Build Files
+out
 Mokka/out
 Mokka/Natives/build
 Mokka/Natives/cmake-build-debug

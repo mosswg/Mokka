@@ -42,6 +42,7 @@ public class PlayerController2D implements MovementController2D {
 
         acceleration.y = ((Internal.keyIsPressedOrHeld(Keys.W) ? speed : 0) + (Internal.keyIsPressedOrHeld(Keys.UP) ? speed : 0)) - ((Internal.keyIsPressedOrHeld(Keys.S) ? speed : 0) + (Internal.keyIsPressedOrHeld(Keys.DOWN) ? speed : 0));
 
+
         acceleration.normalize();
 
         if (!acceleration.isZero() && isActive) {

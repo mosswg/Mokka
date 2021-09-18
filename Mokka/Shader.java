@@ -1,16 +1,22 @@
 package Mokka;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Shader {
     String filepath;
     int RendererID;
 
-    public Shader(File filepath) {
-        if (!filepath.isFile())
-            throw Init.MokkaException.ObjectCreation.NonexistentFile;
+    public Shader(String filepath) {
+        if (!Files.exists(Path.of(filepath))) {
+            filepath = Internal.getFileFromJar(filepath).getPath();
+            if (!Files.exists(Path.of(filepath))) {
+                throw Init.MokkaException.ObjectCreation.NonexistentFile;
+            }
+        }
 
-        this.filepath = filepath.getPath();
+        this.filepath = filepath;
 
 
         this.RendererID = genRID(this.filepath);

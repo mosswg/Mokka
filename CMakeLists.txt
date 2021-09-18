@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Mokka)
+project(mokka)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -78,7 +78,7 @@ link_libraries(m)
 link_libraries(X11)
 
 
-add_library(Mokka SHARED
+add_library(mokka SHARED
         Mokka/Natives/src/mka_IndexBuffer.cpp
         Mokka/Natives/src/mka_IndexBuffer.h
         Mokka/Natives/src/mka_Maths.cpp

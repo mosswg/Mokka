@@ -1,5 +1,12 @@
 package Mokka;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 public class Internal {
 
 
@@ -33,8 +40,36 @@ public class Internal {
 
     public static native boolean keyIsReleased(int keyCode);
 
-
     static native Object getCallingClass(StackTraceElement e);
+
+    public static File getFileFromJar(String filePath) {
+        String tempDir = System.getProperty("java.io.tmpdir");
+        File tmpresDir = new File(tempDir, "tmpres" + System.nanoTime());
+        String[] parts = filePath.split("/");
+        String filename = (parts.length > 1) ? parts[parts.length - 1] : null;
+
+        if (!tmpresDir.mkdir()) {
+            try {
+                throw new IOException("Failed to create temp directory to get  " + tmpresDir.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        File temp = new File(tmpresDir, filename);
+
+        try (InputStream is = Init.class.getResourceAsStream("/" + filePath)) {
+            Files.copy(is, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            temp.delete();
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            temp.delete();
+            (new FileNotFoundException("File " + filePath + " was not found inside JAR.")).printStackTrace();
+        }
+
+        return temp;
+    }
 
 
     public static class Keys {

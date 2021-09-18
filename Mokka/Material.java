@@ -14,7 +14,7 @@ public abstract class Material {
      *
      */
     public static final class BasicColor extends Material {
-        Shader matShader = new Shader(new File("Mokka/res/Shaders/BasicColor.shader"));
+        Shader matShader = new Shader("Mokka/res/Shaders/BasicColor.shader");
         Color c;
 
         public BasicColor() {}
@@ -40,7 +40,7 @@ public abstract class Material {
      *
      */
     public static final class Rainbow extends Material {
-        Shader matShader = new Shader(new File("Mokka/res/Shaders/BasicColor.shader"));
+        Shader matShader = new Shader("Mokka/res/Shaders/BasicColor.shader");
         Color c;
         float rPlus = (float)Math.random() / 25f;
         float gPlus = (float)Math.random() / 25f;
@@ -80,7 +80,7 @@ public abstract class Material {
      *
      */
     public static final class BasicTexture extends Material {
-        Shader matShader = new Shader(new File("Mokka/res/Shaders/BasicTexture.shader"));
+        Shader matShader = new Shader("Mokka/res/Shaders/BasicTexture.shader");
         Texture t;
 
         public BasicTexture() {}
