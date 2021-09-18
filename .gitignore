@@ -4,6 +4,7 @@ build
 out
 Mokka/out
 Mokka/Natives/build
+Mokka/Natives/libs
 Mokka/Natives/cmake-build-debug
 Mokka/Natives/External/linux
 Mokka/Natives/External/win

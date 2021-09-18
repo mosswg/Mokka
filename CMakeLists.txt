@@ -16,67 +16,85 @@ set(MOKKA_LIB_LOCATION ${PROJECT_SOURCE_DIR}/build CACHE STRING "The Location of
 set(FIND_JAVA_FILES  "$$(find" "${PROJECT_SOURCE_DIR}/Mokka" "-name" "\"*.java\")")
 
 
+# Only automatically get submodules if not on windows
+if (NOT WIN32)
+
+    include_directories(Mokka/Natives/External/includes/Java/include/linux)
 
 
-# Get Submodules
-find_package(Git QUIET)
-# If the user is using git fetch the submodules
-if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    if(GIT_SUBMODULE)
-        message(STATUS "Getting submodules")
-        execute_process(COMMAND ${GIT_EXECUTABLE} submodule init
-                RESULT_VARIABLE GIT_SUBMOD_RESULT OUTPUT_QUIET)
-        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update
-                RESULT_VARIABLE GIT_SUBMOD_RESULT OUTPUT_QUIET)
-        if (NOT GIT_SUBMOD_RESULT EQUAL "0")
-            message(FATAL_ERROR "git submodule update failed with ${GIT_SUBMOD_RESULT}")
+    # Get Submodules
+    find_package(Git QUIET)
+    # If the user is using git fetch the submodules
+    if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+        if(GIT_SUBMODULE)
+            message(STATUS "Getting submodules")
+            execute_process(COMMAND ${GIT_EXECUTABLE} submodule init
+                    RESULT_VARIABLE GIT_SUBMOD_RESULT OUTPUT_QUIET)
+            execute_process(COMMAND ${GIT_EXECUTABLE} submodule update
+                    RESULT_VARIABLE GIT_SUBMOD_RESULT OUTPUT_QUIET)
+            if (NOT GIT_SUBMOD_RESULT EQUAL "0")
+                message(FATAL_ERROR "git submodule update failed with ${GIT_SUBMOD_RESULT}")
+            endif()
         endif()
     endif()
-endif()
 
-# Check if glfw submodules exists
-if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw")
-    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build")
-        message(STATUS "Generating GLFW files")
-        execute_process(COMMAND cmake -DBUILD_SHARED_LIBS=ON -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_EXAMPLES=OFF -S ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw -B ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
-        message(STATUS "Building GLFW")
-        execute_process(COMMAND make --no-print-directory -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
-        message(STATUS "GLFW Has Been Successfully Built")
+
+    if (NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/libs")
+        execute_process(COMMAND mkdir -p ${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/)
     endif()
-else()
-    message(FATAL_ERROR "Required Submodule GLFW was not Found.\nDownload Manually and Place into External/Modules Folder or Run CMake with GIT_SUBMODULE set to ON")
-endif()
 
-# Check if glew submodules exists
-if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew")
-    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/lib")
-        message(STATUS "Generating GLEW files")
-        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/auto OUTPUT_QUIET)
-        message(STATUS "Building GLEW")
-        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/ glew.lib.shared OUTPUT_QUIET)
-        message(STATUS "GLEW Has Been Successfully Built")
+    # Check if glfw submodules exists
+    if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw")
+        if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/libglfw.*")
+            message(STATUS "Generating GLFW files")
+            execute_process(COMMAND cmake -DBUILD_SHARED_LIBS=ON -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_EXAMPLES=OFF -S ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw -B ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
+            message(STATUS "Building GLFW")
+            execute_process(COMMAND make --no-print-directory -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build)
+            message(STATUS "GLFW Has Been Successfully Built")
+            message(STATUS "Moving GLFW Libs into Mokka/Natives/Libs Folder")
+            FILE(GLOB libs "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build/src/lib*.*")
+            execute_process(COMMAND cp ${libs} ${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/)
+            message(STATUS "GLFW Complete")
+        endif()
+    else()
+        if (NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/libglfw.*")
+        message(FATAL_ERROR "Required Submodule GLFW was not Found.\nDownload Manually and Place into External/Modules Folder or Run CMake with GIT_SUBMODULE set to ON")
+        endif()
     endif()
+
+    # Check if glew submodules exists
+    if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew")
+        if(NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/libGLEW.*")
+            message(STATUS "Generating GLEW files")
+            execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/auto OUTPUT_QUIET)
+            message(STATUS "Building GLEW")
+            execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/ glew.lib.shared OUTPUT_QUIET)
+            message(STATUS "GLEW Has Been Successfully Built")
+            message(STATUS "Moving GLEW Libs to Mokka/Natives/libs")
+            FILE(GLOB libs "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/lib/lib*.*")
+            execute_process(COMMAND cp ${libs} ${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/)
+            message(STATUS "GLEW Complete")
+        endif()
+    else()
+        if (NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/libglfw.*")
+        message(FATAL_ERROR "Required Submodule GLFW was not Found.\nDownload Manually and Place into External/Modules Folder or Run CMake with GIT_SUBMODULE set to ON")
+        endif()
+    endif()
+
 else()
-    message(FATAL_ERROR "Required Submodule GLFW was not Found.\nDownload Manually and Place into External/Modules Folder or Run CMake with GIT_SUBMODULE set to ON")
+    include_directories(Mokka/Natives/External/includes/Java/include/win32)
+    if (NOT EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/libs/*.dll")
+        message(FATAL_ERROR "Automatic Lib Building is Not Supported on Windows. Please Place Built Libs Into Mokka/Natives/libs to Continue")
+    endif()
 endif()
-
-
-
 
 include_directories(Mokka/Natives/src)
 include_directories(Mokka/Natives/External/Modules/glfw/include)
 include_directories(Mokka/Natives/External/Modules/glew/include)
 include_directories(Mokka/Natives/External/includes/)
 
-if (WIN32)
-    include_directories(Mokka/Natives/External/includes/Java/include/win32)
-else()
-    include_directories(Mokka/Natives/External/includes/Java/include/linux)
-endif()
 
-
-link_directories(Mokka/Natives/External/Modules/glfw/build/src)
-link_directories(Mokka/Natives/External/Modules/glew/lib)
+link_directories(Mokka/Natives/libs)
 
 
 link_libraries(glfw)
@@ -118,10 +136,9 @@ if (MOKKA_BUILD_JAR AND JAVA_FOUND)
 
     add_custom_target( jar ALL javac -d . ${FIND_JAVA_FILES}
             COMMAND mkdir -p Mokka/lib
-            COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glfw/build/src/libglfw.* Mokka/lib
-            COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/lib/libGLEW.* Mokka/lib
-            COMMAND cp -r ${MOKKA_LIB_LOCATION}/libmokka.* Mokka/lib/
-            COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/res/. Mokka/res
+            COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/Natives/libs Mokka/lib
+            COMMAND cp -r ${PROJECT_BINARY_DIR}/libmokka.* Mokka/lib/
+            COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/res Mokka/res
             COMMAND jar cf libmokka.jar Mokka/
             DEPENDS mokka
             COMMENT Creates A Jar)
