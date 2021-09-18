@@ -7,12 +7,17 @@ set(CMAKE_CXX_STANDARD 14)
 
 message(STATUS "Starting CMake")
 
+# Options
+option(GIT_SUBMODULE "Check submodules during build" ON)
+option(MOKKA_BUILD_JAR "Create A Jar File" OFF)
+
+
+
+
 # Get Submodules
 find_package(Git QUIET)
 # If the user is using git fetch the submodules
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    # Option to disable fetching submodules on build
-    option(GIT_SUBMODULE "Check submodules during build" ON)
     if(GIT_SUBMODULE)
         message(STATUS "Getting submodules")
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule init
@@ -101,3 +106,15 @@ add_library(mokka SHARED
         Mokka/Natives/src/mka_Window.h
         Mokka/Natives/src/Mokka.cpp
         Mokka/Natives/src/Mokka.h)
+
+
+find_package(Java QUIET)
+if (MOKKA_BUILD_JAR AND JAVA_FOUND)
+
+
+    add_custom_target( jar ALL javac -d build/java/Mokka
+            COMMAND jar cf libmokka.jar java/Mokka
+
+            COMMENT Creates A Jar)
+
+endif()
