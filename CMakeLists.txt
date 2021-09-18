@@ -118,10 +118,12 @@ if (MOKKA_BUILD_JAR AND JAVA_FOUND)
 
     add_custom_target( jar ALL javac -d . ${FIND_JAVA_FILES}
             COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/Natives Mokka/Natives
+            COMMAND cp -r ${PROJECT_SOURCE_DIR}/Mokka/res Mokka/res
             COMMAND mkdir Mokka/lib
-            COMMAND cp -r ${MOKKA_LIB_LOCATION}/libmokka.so Mokka/build/libmokka.so
+            COMMAND cp -r ${MOKKA_LIB_LOCATION}/libmokka.so Mokka/lib/libmokka.so
             COMMAND jar cf libmokka.jar Mokka/
             COMMAND rm -r Mokka
+            OUTPUT Building Jar
             DEPENDS mokka
             COMMENT Creates A Jar)
 
