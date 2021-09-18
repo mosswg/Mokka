@@ -49,7 +49,7 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew")
         message(STATUS "Generating GLEW files")
         execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/auto OUTPUT_QUIET)
         message(STATUS "Building GLEW")
-        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/ glew.lib.shared)
+        execute_process(COMMAND make -C ${PROJECT_SOURCE_DIR}/Mokka/Natives/External/Modules/glew/ glew.lib.shared OUTPUT_QUIET)
         message(STATUS "GLEW Has Been Successfully Built")
     endif()
 else()
@@ -114,7 +114,7 @@ if (MOKKA_BUILD_JAR AND JAVA_FOUND)
 
     add_custom_target( jar ALL javac -d build/java/Mokka
             COMMAND jar cf libmokka.jar java/Mokka
-
+            DEPENDS mokka
             COMMENT Creates A Jar)
 
 endif()
