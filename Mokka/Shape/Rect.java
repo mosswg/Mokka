@@ -49,10 +49,10 @@ public class Rect extends AbstractShape {
     public VertexArray getVertexArray() {
         if (va == null)
             va = VertexArray.Create(new float[]{
-                    (-width / 2) + pos.x, (-height / 2) + pos.y, 0.0f, 0.0f,
-                    (width / 2) + pos.x, (-height / 2) + pos.y, 1.0f, 0.0f,
-                    (width / 2) + pos.x, (height / 2) + pos.y, 1.0f, 1.0f,
-                    (-width / 2) + pos.x, (height / 2) + pos.y, 0.0f, 1.0f
+                    (-width) + pos.x, (-height) + pos.y, 0.0f, 0.0f,
+                    (width) + pos.x, (-height) + pos.y, 1.0f, 0.0f,
+                    (width) + pos.x, (height) + pos.y, 1.0f, 1.0f,
+                    (-width) + pos.x, (height) + pos.y, 0.0f, 1.0f
             });
 
 
