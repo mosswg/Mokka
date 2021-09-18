@@ -18,12 +18,12 @@ public class Init {
 
     static {
         try {
-            System.load(new File("Mokka/Natives/External/Modules/glfw/build/src/" + mLib.getFileName("glfw")).getAbsolutePath());
-            System.load(new File("Mokka/Natives/External/Modules/glew/lib/" + mLib.getFileName("GLEW")).getAbsolutePath());
+            System.load(new File("Mokka/Natives/libs/" + mLib.getFileName("glfw")).getAbsolutePath());
+            System.load(new File("Mokka/Natives/libs/" + mLib.getFileName("GLEW")).getAbsolutePath());
             System.load(new File("build/" + mLib.getFileName("mokka")).getAbsolutePath());
         } catch (UnsatisfiedLinkError | mLib.OSNotIdentifiedException s) {
             try {
-                System.load(new File("Mokka/Natives/build/" + mLib.getFileName("Mokka")).getAbsolutePath());
+                System.load(new File("Mokka/Natives/libs/" + mLib.getFileName("mokka")).getAbsolutePath());
             } catch (UnsatisfiedLinkError | mLib.OSNotIdentifiedException e) {
                 try {
                     mLib.loadLibraryFromJar("/Mokka/lib/" + mLib.getFileName("glfw")); // during runtime. .DLL/.so/.dylib within .JAR
