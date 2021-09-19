@@ -12,10 +12,10 @@ import java.util.HashMap;
 public abstract class AbstractShape {
 
     static public HashMap<AbstractShape, Boolean> ShapeList = new HashMap<>();
-
     Material material;
     VertexArray va;
     Matrix4f translation = new Matrix4f(1);
+    public AbstractShape parent = null;
     final int[] indices = null;
 
     public AbstractShape() {
@@ -33,6 +33,14 @@ public abstract class AbstractShape {
 
     public void translate(Vector3f vec) {
         translation.translate(vec);
+    }
+
+    public Matrix4f getTranslation() {
+        return translation;
+    }
+
+    public void setParent(AbstractShape parent) {
+        this.parent = parent;
     }
 
 
