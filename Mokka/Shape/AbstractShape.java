@@ -13,7 +13,7 @@ import java.util.HashMap;
 public abstract class AbstractShape {
 
     static public HashMap<AbstractShape, Boolean> ShapeList = new HashMap<>();
-    Material material;
+    Material material = Options.getDefaultMaterial();
     VertexArray va;
     Matrix4f translation = new Matrix4f(1);
     public ArrayList<AbstractShape> children = new ArrayList<>();
