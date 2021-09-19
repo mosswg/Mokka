@@ -5,9 +5,9 @@ import Mokka.Maths.Matrix4f;
 import Mokka.Maths.Vector2f;
 
 public class Rect extends AbstractShape {
-    public Vector2f pos;
-    public float width;
-    public float height;
+    private Vector2f pos;
+    private float width;
+    private float height;
     MovementController2D Controller;
     final int[] indices = {
             0, 1, 2,
@@ -46,6 +46,15 @@ public class Rect extends AbstractShape {
         return Controller;
     }
 
+    public Vector2f getPos() {
+        return new Vector2f(pos.x + translation.getData(0).getX(), pos.y + translation.getData(1).y);
+    }
+
+    public Vector2f getSize() {
+        return new Vector2f(width, height);
+    }
+
+
     public VertexArray getVertexArray() {
         if (va == null)
             va = VertexArray.Create(new float[]{
@@ -57,10 +66,6 @@ public class Rect extends AbstractShape {
 
 
         return va;
-    }
-
-    public Matrix4f getTranslation() {
-        return translation;
     }
 
     public void draw() {

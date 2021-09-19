@@ -2,6 +2,7 @@ package Mokka;
 
 import Mokka.Internal.Keys;
 import Mokka.Maths.Matrix4f;
+import Mokka.Maths.Vector2f;
 import Mokka.Shape.*;
 import Mokka.Maths.Vector3f;
 
@@ -83,22 +84,21 @@ public class PlayerController2D implements MovementController2D {
             float width = Window.getWidth() + Window.getCameraX();
             Matrix4f translation = rect.getTranslation();
 
-            float x = translation.getData(3).x + rect.pos.x;
-            float y = translation.getData(3).y + rect.pos.y;
-            if ((x + rect.width * 2) > width) {
-                Window.translateCamera(-(width - (x + rect.width*2))/25, 0, 0);
+            float x = translation.getData(3).x + rect.getPos().x;
+            float y = translation.getData(3).y + rect.getPos().y;
+            Vector2f size = rect.getSize();
+            if ((x + size.x * 2) > width) {
+                Window.translateCamera(-(width - (x + size.x*2))/25, 0, 0);
+            }
+            else if ((x - size.x * 2) < left) {
+                Window.translateCamera(-(left - (x - size.x*2))/25, 0, 0);
             }
 
-            if ((x - rect.width * 2) < left) {
-                Window.translateCamera(-(left - (x - rect.width*2))/25, 0, 0);
+            if ((y + size.y * 2) > height) {
+                Window.translateCamera(0, -(height - (y + size.y * 2))/25, 0);
             }
-
-            if ((y + rect.height * 2) > height) {
-                Window.translateCamera(0, -(height - (y + rect.height * 2))/25, 0);
-            }
-
-            if ((y - rect.height * 2) < bottom) {
-                Window.translateCamera(0, -(bottom - (y - rect.height * 2))/25, 0);
+            else if ((y - size.y * 2) < bottom) {
+                Window.translateCamera(0, -(bottom - (y - size.y * 2))/25, 0);
             }
         }
     }
