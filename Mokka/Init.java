@@ -41,65 +41,6 @@ public class Init {
 
     protected static native void initWindow(int x, int y, String name);
 
-    /**
-     *
-     * Creates Window and Finds init and run functions. This
-     *
-     * @param x - X Size of the Window
-     * @param y - Y Size of the Window
-     * @param name - Title of the Window
-     */
-    public static void init(int x, int y, String name) {
-        initWindow(x, y, name);
-
-
-        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        Object callingObject = Internal.getCallingClass(stackTraceElements[stackTraceElements.length - 1]);
-
-        findAndCallInit(callingObject);
-
-
-        boolean found = false;
-        for (final Method method : callingObject.getClass().getDeclaredMethods()) {
-            if (method.getName().equalsIgnoreCase("run")) {
-                found = true;
-                try {
-                    if (method.getParameterCount() != 0) {
-                        System.out.println("Run Method Must Take No Arguments");
-                        continue;
-                    }
-                    if (Modifier.isStatic(method.getModifiers()))
-                        while (!Window.shouldClose()) {
-                            frame(method, null);
-                        }
-                    else
-                        while (!Window.shouldClose()) {
-                            frame(method, callingObject);
-                        }
-                } catch (IllegalAccessException e) {
-                    System.out.println("Run Method must be public");
-                } catch (InvocationTargetException e) {
-                    e.getCause().printStackTrace();
-                    //e.printStackTrace();
-                }
-                break;
-            }
-        }
-        if (!found) {
-            if (!Options.AutoDraw) {
-                throw MokkaException.Initialization.RunNotFound;
-            }
-            else {
-                while (!Window.shouldClose()) {
-                    frame();
-                }
-            }
-        }
-
-
-        Window.terminate();
-    }
-
     private static void autoDraw() {
         if (Options.AutoDraw)
             for (AbstractShape s : AbstractShape.ShapeList.keySet())
@@ -107,7 +48,7 @@ public class Init {
                     s.draw();
     }
 
-    private static void frame() {
+    protected static void frame() {
         delta = System.nanoTime() - lastFrameTime;
         Window.clear();
         autoDraw();
@@ -115,7 +56,7 @@ public class Init {
         lastFrameTime = System.nanoTime();
     }
 
-    private static void frame(Method run, Object CallingObject) throws InvocationTargetException, IllegalAccessException {
+    protected static void frame(Method run, Object CallingObject) throws InvocationTargetException, IllegalAccessException {
         delta = System.nanoTime() - lastFrameTime;
         Window.clear();
         autoDraw();
@@ -125,7 +66,7 @@ public class Init {
         lastFrameTime = System.nanoTime();
     }
 
-    private static void findAndCallInit(Object callingObject) {
+    protected static void findAndCallInit(Object callingObject) {
         boolean found = false;
         for (final Method method : callingObject.getClass().getDeclaredMethods()) {
             if (method.getName().equalsIgnoreCase("init")) {

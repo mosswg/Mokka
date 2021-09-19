@@ -26,6 +26,6 @@ public class BasicExample {
 
 
     public static void main(String[] args) {
-        Init.init(800, 800, "SQUARE");
+        Mokka.init(800, 800, "SQUARE");
     }
 }
