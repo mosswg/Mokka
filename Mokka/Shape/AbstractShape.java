@@ -28,7 +28,7 @@ public abstract class AbstractShape {
     }
 
     public void translate(float x, float y, float z) {
-        translation = Matrix4f.translate(translation, new Vector3f(x, y, z));
+        translation.translate(x, y, z);
     }
 
     public void translate(Vector3f vec) {
@@ -36,7 +36,7 @@ public abstract class AbstractShape {
     }
 
 
-
+    public abstract AbstractShape copy();
 
 }
 
