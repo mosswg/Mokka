@@ -19,7 +19,7 @@ jobject getShapeVa(JNIEnv*, jobject);
 
 void bindShapeVa(JNIEnv*, jobject);
 
-glm::mat4 getShapeTranlationMatrix(JNIEnv*, jobject);
+glm::mat4 getShapeTranslationMatrix(JNIEnv*, jobject);
 
 jobject getShapeParent(JNIEnv*, jobject);
 
