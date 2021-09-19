@@ -143,7 +143,7 @@ JNIEXPORT jfloat JNICALL Java_Mokka_Window_getHeight
  */
 JNIEXPORT void JNICALL Java_Mokka_Window_draw
   (JNIEnv * env, jclass, jobject shape){
-    u_MVP = projMatrix * (getShapeTranlationMatrix(env, shape) * view);
+    u_MVP = projMatrix * (getShapeTranslationMatrix(env, shape) * view);
     bindShapeMaterial(env, shape);
     bindShapeVa(env, shape);
 
