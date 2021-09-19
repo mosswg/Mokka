@@ -1,16 +1,6 @@
 #include "mka_Shape.h"
 
-/*
- * Class:     Mokka_Shape
- * Method:    translate
- * Signature: (FFF)V
- */
-JNIEXPORT void JNICALL Java_Mokka_Shape_translate
-  (JNIEnv *, jobject, jfloat, jfloat, jfloat) {
-      std::cout << "METHOD translate IS DEPRECARED" << std::endl;
-}
-
-glm::mat4 getShapeTranlationMatrix(JNIEnv* env, jobject obj) {
+glm::mat4 getShapeTranslationMatrix(JNIEnv* env, jobject obj) {
     if (obj == nullptr) {
         return glm::mat4(1);
     }
@@ -27,17 +17,7 @@ glm::mat4 getShapeTranlationMatrix(JNIEnv* env, jobject obj) {
     
     env->ReleaseFloatArrayElements(dataJava, data, 0);
 
-    glm::mat4 parentTranslation = getShapeTranlationMatrix(env, getShapeParent(env, obj));
-
     return out;
-}
-
-jobject getShapeParent(JNIEnv* env, jobject obj) {
-    jfieldID fid = env->GetFieldID(env->GetObjectClass(obj), "parent", "LMokka/Shape/AbstractShape;");
-
-    CheckJNIError(env);
-
-    return env->GetObjectField(obj, fid);
 }
 
 

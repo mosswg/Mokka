@@ -7,6 +7,7 @@ import Mokka.Options;
 import Mokka.VertexArray;
 import Mokka.Window;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class AbstractShape {
@@ -15,7 +16,7 @@ public abstract class AbstractShape {
     Material material;
     VertexArray va;
     Matrix4f translation = new Matrix4f(1);
-    public AbstractShape parent = null;
+    public ArrayList<AbstractShape> children = new ArrayList<>();
     final int[] indices = null;
 
     public AbstractShape() {
@@ -33,14 +34,17 @@ public abstract class AbstractShape {
 
     public void translate(Vector3f vec) {
         translation.translate(vec);
+        for (AbstractShape child : children) {
+            child.translate(vec);
+        }
     }
 
     public Matrix4f getTranslation() {
         return translation;
     }
 
-    public void setParent(AbstractShape parent) {
-        this.parent = parent;
+    public void addChild(AbstractShape child) {
+        this.children.add(child);
     }
 
 
