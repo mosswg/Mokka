@@ -12,12 +12,12 @@ public class PlayerController2D implements MovementController2D {
     public float speed;
     public float friction;
     public float maxSpeed;
-    boolean isActive;
+    boolean isActive = true;
 
     public PlayerController2D(float speed) {
         this.speed = speed;
         this.friction = speed / 5;
-        this.maxSpeed = speed * 2;
+        this.maxSpeed = speed * 3;
     }
 
     public PlayerController2D(float speed, float friction) {
@@ -36,7 +36,6 @@ public class PlayerController2D implements MovementController2D {
 
     @Override
     public void Move(AbstractShape shape) {
-
         acceleration = new Vector3f();
 
         acceleration.x = ((Internal.keyIsPressedOrHeld(Keys.W) ? speed : 0) + (Internal.keyIsPressedOrHeld(Keys.RIGHT) ? speed : 0)) - ((Internal.keyIsPressedOrHeld(Keys.A) ? speed : 0) + (Internal.keyIsPressedOrHeld(Keys.LEFT) ? speed : 0));
@@ -47,6 +46,7 @@ public class PlayerController2D implements MovementController2D {
         acceleration.normalize();
 
         if (!acceleration.isZero() && isActive) {
+
             velocity.x += acceleration.x;
             velocity.y += acceleration.y;
             velocity.clampabs(maxSpeed);
