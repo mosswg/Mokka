@@ -21,6 +21,8 @@ void bindShapeVa(JNIEnv*, jobject);
 
 glm::mat4 getShapeTranlationMatrix(JNIEnv*, jobject);
 
+jobject getShapeParent(JNIEnv*, jobject);
+
 IndexBuffer getShapeIb(JNIEnv* , jobject );
 
 void bindShapeIb(JNIEnv* , jobject );
