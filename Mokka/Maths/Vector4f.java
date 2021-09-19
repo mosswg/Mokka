@@ -163,11 +163,10 @@ public class Vector4f {
 
     @Override
     public String toString() {
-        return "(" + x +
+        return x +
                 ", " + y +
                 ", " + z +
-                ", " + w +
-                ')';
+                ", " + w;
     }
 
     @Override

@@ -69,6 +69,9 @@ public class Matrix4f {
     public void translate(float x, float y, float z) {
         this.data[3] = this.data[0].mult(x).add(this.data[1].mult(y)).add(this.data[2].mult(z)).add(this.data[3]);
     }
+    
+    
+    
 
 
     public static Matrix4f translate(Matrix4f m, Vector3f v) {
@@ -82,6 +85,8 @@ public class Matrix4f {
         Result.data[3] = m.data[0].mult(x).add(m.data[1].mult(y)).add(m.data[2].mult(z)).add(m.data[3]);
         return Result;
     }
+    
+    
 
 
     private static float[] mult(float[] array, float m) {
@@ -89,5 +94,11 @@ public class Matrix4f {
             array[i] *= m;
         }
         return array;
+    }
+
+
+    @Override
+    public String toString() {
+        return "{ " + data[0] + '\n' + data[1] + '\n' + data[2] + '\n' + data[3] + " }";
     }
 }
