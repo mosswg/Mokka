@@ -65,7 +65,6 @@ public class Internal {
             e.printStackTrace();
         } catch (NullPointerException e) {
             temp.delete();
-            (new FileNotFoundException("File " + filePath + " was not found inside JAR.")).printStackTrace();
         }
 
         return temp;

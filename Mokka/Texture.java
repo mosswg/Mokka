@@ -12,10 +12,7 @@ public class Texture {
 
     public Texture(String textureFile) {
         if (!Files.exists(Path.of(textureFile))) {
-            textureFile = Internal.getFileFromJar(textureFile).getAbsolutePath();
-            if (!Files.exists(Path.of(textureFile))) {
-                throw Init.MokkaException.ObjectCreation.NonexistentFile;
-            }
+            throw Init.MokkaException.ObjectCreation.NonexistentFile;
         }
 
         Texture t = createTexture(textureFile);

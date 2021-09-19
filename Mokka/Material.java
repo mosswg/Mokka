@@ -1,8 +1,5 @@
 package Mokka;
 
-
-import java.io.File;
-
 public abstract class Material {
     Shader matShader;
 
