@@ -1,42 +1,90 @@
 # Mokka
 
-# Building 
-Mokka uses CMake to Build. For People Inexperienced in CMake there are detailed Instruction on the [wiki](https://github.com/mossx-dev/Mokka/wiki/Building). <br>
-<br>
-See [Build Options](https://github.com/mossx-dev/Mokka/wiki/Building#Options) for How to Enable/Disable These Features.<br>
+# Building
+## Dependencies
+ - CMake
+ - Internet Connection Or Pre-downloaded SubModules
 
-Running CMake in the project directory will get submodules. Then build them into shared libraries. The libs will be moved to `Mokka/Natives/libs`. <br> 
+
+## Process
+
+See [build options](#Build-Options) for how to enable/disable these features.<br>
 <br>
-After Getting and Building all dependencies it will create the mokka shared library in the CMake build directory. <br> 
+Running the following command in the source directory will build the project
+```bash
+cmake -S . -B build
+```
+More specifically this will get/update submodules. Then build the files into shared libraries and move them to `Mokka/Natives/libs`. <br>
 <br>
-To Manually Build A Jar the mokka lib must be in the `Mokka/Natives/libs` folder. Jars can be build automatically with the MOKKA_BUILD_JAR option. <br>
+Build files will be placed into the specified directory in this case build. <br>
+<br>
+To build these files `cd` into the build folder then run the command `make`. <br>
+<br>
+To manually build a jar the mokka lib must be in the `Mokka/Natives/libs` folder. Jars can be build automatically with the [MOKKA_BUILD_JAR](#MOKKA_BUILD_JAR) option. <br>
+e.g. 
+```bash
+cmake -DMOKKA_BUILD_JAR=ON -S . -B build
+```
+Building the files like before will produce a jar file called libmokka.jar.
+
+## Build Options 
+### MOKKA_GIT_SUBMODULE
+Automatically gets/updates submodules when building. <br>
+<br>
+Useful if you don't want to manually build libs. Needed if both submodule and lib files don't already exist <br>
+<br>
+Not Windows Compatible <br>
+<br>
+Default: ON
+
+### MOKKA_BUILD_DEPENDS
+Automatically builds libs from required submodules. <br>
+<br>
+Useful if you don't want to manually build libs. Needed if lib files don't already exist. <br>
+<br>
+To use manually built libs place them into Mokka/Natives/libs (may not exist) <br>
+<br>
+Not windows compatible <br>
+<br>
+Default: ON
+
+### MOKKA_BUILD_JAR
+Creates a jar file with the compiled code. <br>
+<br>
+All libs must be built, automatically or manually, and java must be installed. <br>
+<br>
+To use manually built libs place them and the built mokka library file into Mokka/Natives/libs (may not exist) <br>
+<br>
+Not windows compatible <br>
+<br>
+Default: OFF <br>
 <br>
 
 # How to Use
 
 ## Initial Setup
-Any Mokka Executable Must Have a Public Init Function Which Will be Called Once When The Program Runs. <br>
+Any Mokka project must have a public init function which will be called once when the program runs. <br>
 <br>
-There must also be a Public Run Function Which Will be Called Every Frame. <br>
+There must also be a public run function which will be called every frame. <br>
 <br>
-To Start Mokka Call the init Function with Width, Height, and Window Title Within a Java main Function. <br>
+To start Mokka call the Mokka.init function with width, height, and a window title within a main Function. <br>
 <br>
 
 ## Creating Shapes 
-Shapes are Created Like Any Other Object in Java. To be drawn they need to be assigned a material. <br>
+Shapes are created like any other object in java. To be drawn they need to be assigned a material. <br>
 <br>
 There are three builtin materials BasicColor, BasicTexture, and BasicRainbow. <br>
 <br>
-BasicColor Takes in a Color Object and Will be Drawn as the Set Color. The Color can Changed with the setColor Method <br>
+BasicColor takes in a color object and will be drawn as the set color. The color can changed with the setColor method <br>
 <br>
-BasicRainbow is Similar to BasicColor But There Are no Arguments. Every Time It's Drawn It's Color Will Automatically Change by a Small Random Amount. <br>
+BasicRainbow is similar to BasicColor but with no arguments. Every time it's drawn it's color will automatically change by a small random amount. <br>
 <br>
-BasicTexture Takes a Texture Object and It Will be Drawn With the Set Texture. The Texture Can be Change With the setTexture Method. <br>
+BasicTexture takes a texture object and it will be drawn with the set texture. The texture can be change with the setTexture method. <br>
 <br>
 
 ## Drawing Shapes
-Shapes Can be Drawn in the Run Function With the Draw Function <br>
-e.g. If You Have A Shape Object Called Shape
+Shapes can be drawn in run with the draw function <br>
+e.g. if you have a shape object called shape
 ```Java
 shape.draw();
 ```
@@ -47,6 +95,7 @@ shape.draw();
 
 ## Basic Red Square
 ### Code
+
 ```Java
 package Examples;
 
@@ -59,7 +108,7 @@ public class Basic {
     public static void init() {
         Material red = new Material.BasicColor(new Color(1, 0, 0, 1));
 
-        square = new Rect(0, 0, 0.5f,0.5f);
+        square = new Rect(0, 0, 0.5f, 0.5f);
 
         square.setMaterial(red);
     }
@@ -69,9 +118,9 @@ public class Basic {
         square.draw();
 
     }
-    
+
     public static void main(String[] args) {
-        Init.init(800, 800, "Example Square");
+        Mokka.init(800, 800, "Example Square");
     }
 }
 ```
