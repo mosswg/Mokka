@@ -11,7 +11,7 @@ extern GLFWwindow* window;
 * Method:    setOrthoCoords
 * Signature: (FFFF)V
 */
-JNIEXPORT void JNICALL Java_Mokka_Window_00024TwoD_setOrthoCoords
+JNIEXPORT void JNICALL Java_Mokka_Window_setOrthoCoords
     (JNIEnv*, jclass, jfloat xMin, jfloat xMax, jfloat yMin, jfloat yMax) {
         projMatrix = glm::ortho(xMin, xMax, yMin, yMax, -1.0f, 1.0f); 
     }
@@ -143,7 +143,7 @@ JNIEXPORT jfloat JNICALL Java_Mokka_Window_getHeight
  */
 JNIEXPORT void JNICALL Java_Mokka_Window_draw
   (JNIEnv * env, jclass, jobject shape){
-    u_MVP = projMatrix * (getShapeTranlationMatrix(env, shape) * view); 
+    u_MVP = projMatrix * (getShapeTranlationMatrix(env, shape) * view);
     bindShapeMaterial(env, shape);
     bindShapeVa(env, shape);
 
