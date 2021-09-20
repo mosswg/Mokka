@@ -79,7 +79,7 @@ public class Init {
                 } catch (IllegalAccessException e) {
                     System.out.println("Init Method must be public");
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                    e.getCause().getCause().printStackTrace();
                 }
             }
         }
