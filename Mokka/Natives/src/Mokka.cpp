@@ -1,13 +1,11 @@
 #include "Mokka.h"
-#include <stdio.h>
+#include <cstdio>
 #include <list>
 
 
 GLFWwindow* window;
 char keys[148];
 const bool ScreenSaverMode = false;
-int xMod = 1;
-int yMod = 1;
 
 
 
@@ -36,7 +34,7 @@ JNIEXPORT void JNICALL Java_Mokka_Init_initWindow
 
     /* Initialize the library */
     if (!glfwInit()) {
-        std::cout << "ERROR: Glfw Failed to Initalize\n" << std::endl;
+        std::cout << "ERROR: Glfw Failed to Initialize\n" << std::endl;
         const char* error;
         glfwGetError(&error);
         std::cout << error << "\nExiting" << std::endl;
@@ -51,10 +49,10 @@ JNIEXPORT void JNICALL Java_Mokka_Init_initWindow
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-    const char* nameChars = env->GetStringUTFChars(name, NULL); 
+    const char* nameChars = env->GetStringUTFChars(name, nullptr);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(x, y, nameChars, NULL, NULL);
+    window = glfwCreateWindow(x, y, nameChars, nullptr, nullptr);
 
     if (!window)
     {
@@ -73,7 +71,7 @@ JNIEXPORT void JNICALL Java_Mokka_Init_initWindow
         printf("ERROR: GlewInit was called before OpenGl context defined \n");
     }
     else {
-        std::cout << "Glew Initalized Sucessfully Using GL Version: " << glGetString(GL_VERSION) << std::endl;
+        std::cout << "Glew Initialized Successfully Using GL Version: " << glGetString(GL_VERSION) << std::endl;
     }
 
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
@@ -92,7 +90,8 @@ JNIEXPORT void JNICALL Java_Mokka_Init_initWindow
 }
 
 
-
+int xMod = 1;
+int yMod = 1;
 void WindowDVD(GLFWwindow*, int xpos, int ypos) {
     
     int width, height;
@@ -136,7 +135,6 @@ void OpenGlLogMessageCallback(GLenum,
 
 void key_callback(GLFWwindow*, int key, int, int action, int)
 {
-
     if (key != GLFW_KEY_UNKNOWN) {
         if (action == GLFW_PRESS)
             keys[getKeyArrayLocation(key)] = 1;
@@ -239,8 +237,8 @@ int getKeyArrayLocation(int keyCode) {
     */
     JNIEXPORT jobject JNICALL Java_Mokka_Internal_getCallingClass (JNIEnv* env, jclass, jobject STE) {
         jfieldID fid = env->GetFieldID(env->GetObjectClass(STE), "declaringClass", "Ljava/lang/String;");
-        jstring decCls = (jstring)env->GetObjectField(STE, fid);
-        const char* clsChars = env->GetStringUTFChars(decCls, NULL);
+        auto decCls = (jstring)env->GetObjectField(STE, fid);
+        const char* clsChars = env->GetStringUTFChars(decCls, nullptr);
         int arrLen = (env->GetStringUTFLength(decCls) + 1);
         char* charMod = new char[arrLen];
         for (int i = 0; i < env->GetStringUTFLength(decCls); i++) {
@@ -256,7 +254,7 @@ int getKeyArrayLocation(int keyCode) {
         jclass objCls = env->FindClass(charMod);
 
         jmethodID mid = env->GetMethodID(objCls, "<init>", "()V");
-        if (mid == NULL) {
+        if (mid == nullptr) {
             //printf("Initalizer For Calling Object Not Found Ensure An Initalizer with No Arguments is available");
             validateInstance();
             glfwDestroyWindow(window);
