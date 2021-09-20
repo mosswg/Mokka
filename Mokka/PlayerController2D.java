@@ -1,10 +1,10 @@
 package Mokka;
 
-import Mokka.Internal.Keys;
-import Mokka.Maths.Matrix4f;
-import Mokka.Maths.Vector2f;
 import Mokka.Shape.*;
+import Mokka.Internal.Keys;
+import Mokka.Maths.Vector2f;
 import Mokka.Maths.Vector3f;
+import Mokka.Maths.Matrix4f;
 
 public class PlayerController2D implements MovementController2D {
     Vector3f acceleration = new Vector3f();
