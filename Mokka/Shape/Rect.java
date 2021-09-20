@@ -1,14 +1,12 @@
 package Mokka.Shape;
 
 import Mokka.*;
-import Mokka.Maths.Matrix4f;
 import Mokka.Maths.Vector2f;
 
 public class Rect extends AbstractShape {
-    private Vector2f pos;
-    private float width;
-    private float height;
-    MovementController2D Controller;
+    private final Vector2f pos;
+    private final Vector2f size;
+    MovementController2D controller;
     final int[] indices = {
             0, 1, 2,
             2, 3, 0
@@ -18,15 +16,13 @@ public class Rect extends AbstractShape {
     public Rect(float x, float y, float width, float height) {
         super();
         this.pos = new Vector2f(x, y);
-        this.width = width;
-        this.height = height;
+        this.size = new Vector2f(width, height);
     }
 
     public Rect(float x, float y, float width, float height, Material material) {
         super();
         this.pos = new Vector2f(x, y);
-        this.width = width;
-        this.height = height;
+        this.size = new Vector2f(width, height);
         this.material = material;
     }
 
@@ -39,11 +35,11 @@ public class Rect extends AbstractShape {
     }
 
     public void setController(MovementController2D Controller) {
-        this.Controller = Controller;
+        this.controller = Controller;
     }
 
     public MovementController2D getController() {
-        return Controller;
+        return controller;
     }
 
     public Vector2f getPos() {
@@ -51,17 +47,17 @@ public class Rect extends AbstractShape {
     }
 
     public Vector2f getSize() {
-        return new Vector2f(width, height);
+        return size;
     }
 
 
     public VertexArray getVertexArray() {
         if (va == null)
             va = VertexArray.Create(new float[]{
-                    (-width) + pos.x, (-height) + pos.y, 0.0f, 0.0f,
-                    (width) + pos.x, (-height) + pos.y, 1.0f, 0.0f,
-                    (width) + pos.x, (height) + pos.y, 1.0f, 1.0f,
-                    (-width) + pos.x, (height) + pos.y, 0.0f, 1.0f
+                    (-size.x) + pos.x, (-size.y) + pos.y, 0.0f, 0.0f,
+                    (size.x) + pos.x, (-size.y) + pos.y, 1.0f, 0.0f,
+                    (size.x) + pos.x, (size.y) + pos.y, 1.0f, 1.0f,
+                    (-size.x) + pos.x, (size.y) + pos.y, 0.0f, 1.0f
             });
 
 
@@ -69,14 +65,18 @@ public class Rect extends AbstractShape {
     }
 
     public void draw() {
-        if (Controller != null)
-            Controller.Move(this);
+        if (controller != null)
+            controller.move(this);
 
         Window.draw(this);
     }
 
     public Rect copy() {
-        return new Rect(pos.x, pos.y, width, height);
+        Rect out = new Rect(pos.x, pos.y, size.x, size.y);
+        out.material = this.material.copy();
+        out.controller = this.controller.copy();
+        out.translation = this.translation.copy();
+        return out;
     }
 
 }
