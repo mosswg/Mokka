@@ -35,7 +35,7 @@ public class PlayerController2D implements MovementController2D {
 
 
     @Override
-    public void Move(AbstractShape shape) {
+    public void move(AbstractShape shape) {
         acceleration = new Vector3f();
 
         acceleration.x = ((Internal.keyIsPressedOrHeld(Keys.W) ? speed : 0) + (Internal.keyIsPressedOrHeld(Keys.RIGHT) ? speed : 0)) - ((Internal.keyIsPressedOrHeld(Keys.A) ? speed : 0) + (Internal.keyIsPressedOrHeld(Keys.LEFT) ? speed : 0));
