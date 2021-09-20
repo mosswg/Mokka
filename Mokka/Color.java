@@ -17,16 +17,15 @@ public class Color {
         if (hex.charAt(0) != '#') {
             throw Init.MokkaException.ObjectCreation.InvalidArgument;
         }
-        r = Integer.parseInt(hex.substring(1, 2));
-        g = Integer.parseInt(hex.substring(3, 4));
-        b = Integer.parseInt(hex.substring(5, 6));
+
+
+        r = Integer.parseInt(hex.substring(1, 3), 16);
+        g = Integer.parseInt(hex.substring(3, 5), 16);
+        b = Integer.parseInt(hex.substring(5, 7), 16);
         r /= 256;
         g /= 256;
         b /= 256;
-
-        System.out.println(r);
-        System.out.println(g);
-        System.out.println(b);
+        a = 1.0f;
 
     }
 }
