@@ -22,10 +22,11 @@ public class Color {
         r = Integer.parseInt(hex.substring(1, 3), 16);
         g = Integer.parseInt(hex.substring(3, 5), 16);
         b = Integer.parseInt(hex.substring(5, 7), 16);
-        r /= 256;
-        g /= 256;
-        b /= 256;
-        a = 1.0f;
+        float max = Math.max(Math.max(r, g), b);
+        r /= max;
+        g /= max;
+        b /= max;
+        a = (max / 256);
 
     }
 }
