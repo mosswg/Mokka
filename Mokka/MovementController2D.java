@@ -4,7 +4,7 @@ import Mokka.Shape.AbstractShape;
 
 public interface MovementController2D {
 
-    public void Move(AbstractShape Pos);
+    public void move(AbstractShape Pos);
 
     public void setActive(boolean active);
 
